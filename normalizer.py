@@ -1,3 +1,6 @@
+import pandas as pd
+from sklearn.utils import shuffle
+
 def normalize_data(train_df, test_df):
     # drop nan values
     train_df = train_df.dropna(axis=0)
