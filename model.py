@@ -4,13 +4,13 @@ from keras.layers import Conv2D, MaxPooling2D, Dense, Dropout, Flatten
 import matplotlib.pyplot as plt
 
 
-def start_train(train_dataframe, test_dataframe, parameters):
+def start_train(ticker, train_dataframe, test_dataframe, parameters):
     train_images, train_labels = adjust_training_dataset(train_dataframe, parameters)
     test_images, test_labels, test_prices = adjust_testing_dataset(test_dataframe, parameters)
     model = compile_model(parameters)
     fit_model(model, train_images, train_labels, parameters)
     prediction = predict_phase(model, test_images, test_labels, parameters)
-    save_model(model)
+    save_model(model, ticker)
     return prediction, test_labels, test_prices
 
 
@@ -87,9 +87,10 @@ def fit_model(model, train_images, train_labels, parameters):
 
 def predict_phase(model, test_images, test_label, parameters):
     prediction = model.predict(test_images, batch_size=parameters["batch_size"], verbose=1)
-    print(model.evaluate(test_images, test_label, batch_size=parameters["batch_size"], verbose=1))
+    loss_accuracy_mae_mse = model.evaluate(test_images, test_label, batch_size=parameters["batch_size"], verbose=1)
+    print(loss_accuracy_mae_mse)
     return prediction
 
 
-def save_model(model):
-    model.save("my_model.h5")
+def save_model(model, ticker):
+    model.save(ticker+".h5")

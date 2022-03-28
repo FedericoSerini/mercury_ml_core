@@ -25,13 +25,13 @@ def normalize_data(train_df, test_df):
     for idx, row in train_df.iterrows():
         if row[0] == 1:
             for i in range(l0_l1_ratio):
-                l1_new = l1_new.append(row)
+                l1_new = l1_new.concat(row)
         if row[0] == 2:
             for i in range(l0_l2_ratio):
-                l2_new = l2_new.append(row)
+                l2_new = l2_new.concat(row)
 
-    train_df = train_df.append(l1_new)
-    train_df = train_df.append(l2_new)
+    train_df = train_df.concat(l1_new)
+    train_df = train_df.concat(l2_new)
 
     # shuffle
     train_df = shuffle(train_df)
